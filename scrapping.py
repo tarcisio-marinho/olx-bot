@@ -44,13 +44,14 @@ def get_content_olx(url_olx, search):
             if(nome == new):
                 nomes_e_links[new] = site.get("href")
 
-    #return nomes_e_links
+    for i in nomes_e_links:
+        print(str(i), " >>> ",str(nomes_e_links[i]))
 
 
-    link = soup.find_all("link")
-    for l in link:
-        if("next" in l.get("rel")):
-            print(l.get("href"))
+    # link = soup.find_all("link")
+    # for l in link:
+    #     if("next" in l.get("rel")):
+    #         print(l.get("href"))
 
 
 if __name__ == "__main__":
