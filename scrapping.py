@@ -1,11 +1,6 @@
 import requests, bs4 as bs, lxml, json
 
 """
-no codigo html tem um link que é o next
-é um link pra proxima pagina de busca
-apos percorrer todas as ofertas de uma pagina, ir para a proxima
-
-
 ao achar um produto, acessar o seu link de oferta 
 pegar dados como -> preco, nome do vendedor, etc
 """
@@ -44,18 +39,22 @@ def get_content_olx(url_olx, search):
             if(nome == new):
                 nomes_e_links[new] = site.get("href")
 
-    for i in nomes_e_links:
-        print(str(i), " >>> ",str(nomes_e_links[i]))
+    return nomes_e_links
 
+def get_offer_info(url):
+    req = requests.get(url)
+    soup = bs.BeautifulSoup(req.text, "lxml")
 
-    # link = soup.find_all("link")
-    # for l in link:
-    #     if("next" in l.get("rel")):
-    #         print(l.get("href"))
-
+    retorno = soup.find_all("p")
+    for oferta in retorno:
+        print(oferta.text)
 
 if __name__ == "__main__":
     url = get_url() 
     search = "ps4"
-    get_content_olx(url, search)
+    nomes_e_links = get_content_olx(url, search)
+
+    for i in nomes_e_links:
+        get_offer_info(nomes_e_links[i])
+        break
 
