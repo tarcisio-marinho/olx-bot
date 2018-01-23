@@ -31,11 +31,26 @@ def get_content_olx(url_olx, search):
     for oferta in retorno:
         nova_oferta = oferta.text.replace("\t", "").replace("\n", "")
         if(search in nova_oferta):
-            nomes.append(nova_oferta)
+            nomes.append(nova_oferta.lower())
 
     sites = soup.find_all("a")
     for site in sites:
-        print(site.get("href"))
+        for nome in nomes:
+            try:
+                new = site.get("title").lower()
+            except AttributeError:
+                new = site.get("title")
+
+            if(nome == new):
+                nomes_e_links[new] = site.get("href")
+
+    #return nomes_e_links
+
+
+    link = soup.find_all("link")
+    for l in link:
+        if("next" in l.get("rel")):
+            print(l.get("href"))
 
 
 if __name__ == "__main__":
